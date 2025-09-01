@@ -6,6 +6,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>hello, spring!!!</h1>
+	<h1>Join Success !</h1>
 </body>
 </html>
