@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>메일 리스트 가입</h1>
+	<h1>메일 리스트 가입!</h1>
 	<p>
 		메일 리스트에 가입하려면,<br>
 		아래 항목을 기입하고 등록 버튼을 클릭하세요.
