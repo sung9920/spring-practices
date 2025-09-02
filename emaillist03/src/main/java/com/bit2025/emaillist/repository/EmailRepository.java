@@ -17,7 +17,7 @@ public class EmailRepository {
 
 	public int deleteById(Long id) {
 		int result = 0;
-		
+
 		try (
 			Connection con = getConnection();
 			PreparedStatement pstmt = con.prepareStatement("delete from email where id = ?");
@@ -27,13 +27,13 @@ public class EmailRepository {
 		} catch (SQLException e) {
 			 System.out.println("error:" + e);
 		}
-		
-		return result;		
+
+		return result;
 	}
-	
+
 	public int deleteByEmail(String email) {
 		int result = 0;
-		
+
 		try (
 			Connection con = getConnection();
 			PreparedStatement pstmt = con.prepareStatement("delete from email where email = ?");
@@ -43,13 +43,13 @@ public class EmailRepository {
 		} catch (SQLException e) {
 			 System.out.println("error:" + e);
 		}
-		
-		return result;		
+
+		return result;
 	}
-	
+
 	public int insert(EmailVo vo) {
 		int result = 0;
-		
+
 		try (
 			Connection con = getConnection();
 			PreparedStatement pstmt = con.prepareStatement("insert into email(first_name, last_name, email) values (?, ?, ?)");
@@ -57,18 +57,18 @@ public class EmailRepository {
 			pstmt.setString(1, vo.getFirstName());
 			pstmt.setString(2, vo.getLastName());
 			pstmt.setString(3, vo.getEmail());
-			
+
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			 System.out.println("error:" + e);
 		}
-		
+
 		return result;
 	}
 
 	public Long count() {
 		Long result = 0L;
-		
+
 		try (
 			Connection con =  getConnection();
 			PreparedStatement pstmt = con.prepareStatement("select count(*) from email");
@@ -80,7 +80,7 @@ public class EmailRepository {
 		} catch (SQLException e) {
 			 System.out.println("error:" + e);
 		}
-		
+
 		return result;
 	}
 
@@ -90,26 +90,26 @@ public class EmailRepository {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
+
 		try {
 			con = getConnection();
-			
+
 			String sql = "select id, first_name, last_name, email from email order by id desc";
 			pstmt = con.prepareStatement(sql);
-			
+
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				Long id = rs.getLong(1);
 				String firstNmae = rs.getString(2);
 				String lastName = rs.getString(3);
 				String email = rs.getString(4);
-				
+
 				EmailVo vo = new EmailVo();
 				vo.setId(id);
 				vo.setFirstName(firstNmae);
 				vo.setLastName(lastName);
 				vo.setEmail(email);
-				
+
 				result.add(vo);
 			}
 		} catch (SQLException e) {
@@ -129,22 +129,22 @@ public class EmailRepository {
 				e.printStackTrace();
 			}
 		}
-		
+
 		return result;
-	}	
-	
+	}
+
 	private Connection getConnection() throws SQLException {
 		Connection con = null;
-		
+
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
-			
-			String url  = "jdbc:mariadb://192.168.0.177:3306/webdb";
+
+			String url  = "jdbc:mariadb://192.168.0.176:3306/webdb";
 			con =  DriverManager.getConnection (url, "webdb", "webdb");
 		} catch(ClassNotFoundException ex) {
 			System.out.println("Driver Class Not Found");
 		}
-		
-		return con;		
+
+		return con;
 	}
 }
