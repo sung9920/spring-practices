@@ -23,7 +23,7 @@ public class MyAspect {
 		System.out.println("-- After Advice --");
 	}
 
-	@AfterReturning("execution(aop.service.ProductService.find(String))")
+	@AfterReturning("execution(* aop.service.ProductService.find(String))")
 	public void adviceAfterReturning() {
 		System.out.println("-- AfterReturning Advice --");
 	}
@@ -38,6 +38,10 @@ public class MyAspect {
 		System.out.println("-- Around Advice : Before --");
 
 		Object result = pjp.proceed();
+
+//		메소드의 파라미터에 추가 처리가 있는 경우...
+//		Object[] params = {"PC"};
+//		Object result = pjp.proceed(params);
 
 		System.out.println("-- Around Advice : After --");
 
