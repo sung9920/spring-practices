@@ -5,19 +5,19 @@
 	<insert id="insert">
 		<![CDATA[
 		insert into email_log values(current_date(), 1)
-		]]>	
+		]]>
 	</insert>
-	
+
 	<update id="update">
 		<![CDATA[
 		update email_log set count = count + 1 where reg_date = current_date()
-		]]>	
+		]]>
 	</update>
-	
+
 	<update id="updateByRegDate" parameterType="string">
 		<![CDATA[
-		update email_log set count = count - 1 where reg_date = #{regDate} 
-		]]>	
+		update email_log set count = count - 1 where reg_date = #{regDate}
+		]]>
 	</update>
-	
+
 </mapper>
