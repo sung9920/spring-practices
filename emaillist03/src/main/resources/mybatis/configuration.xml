@@ -7,5 +7,6 @@
 	
 	<mappers>
 		<mapper resource="mybatis/mappers/email.xml" />
+		<mapper resource="mybatis/mappers/emaillog.xml" />
 	</mappers>
 </configuration>
