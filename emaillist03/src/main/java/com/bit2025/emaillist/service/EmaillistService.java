@@ -6,10 +6,12 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.apache.taglibs.standard.tag.common.sql.DataSourceUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import com.bit2025.emaillist.repository.EmailRepository;
@@ -22,6 +24,9 @@ public class EmaillistService {
 	private DataSource dataSource;
 
 	@Autowired
+	private PlatformTransactionManager transactionManager;
+
+	@Autowired
 	private EmailRepository emailRepository;
 
 	@Autowired
@@ -32,12 +37,26 @@ public class EmaillistService {
 	}
 
 	public void addEmail(EmailVo emailVo) {
-		int count = emaillogRepository.update();
-		if(count == 0) {
-			emaillogRepository.insert();
-		}
+		// TX:begin //////////////////////////////
+		TransactionStatus txStatus = transactionManager.getTransaction(new DefaultTransactionDefinition());
 
-		emailRepository.insert(emailVo);
+		try {
+			int count = emaillogRepository.update();
+			if(count == 0) {
+				emaillogRepository.insert();
+			}
+
+			emailRepository.insert(emailVo);
+
+			// TX:end(success) ////////////////////////
+			transactionManager.commit(txStatus);
+
+		} catch(Throwable e) {
+			// TX:end(fail) ////////////////////////
+			transactionManager.rollback(txStatus);
+
+			throw new RuntimeException(e);
+		}
 	}
 
 	public void deleteEmail(Long id) {
@@ -46,18 +65,17 @@ public class EmaillistService {
 		Connection conn = DataSourceUtils.getConnection(dataSource);
 
 		try {
-			// TX:begin ////////////////////////////////
-
+			// TX:begin //////////////////////////////
 			conn.setAutoCommit(false);
 
 			EmailVo vo = emailRepository.findById(id);
 			emailRepository.deleteById(id);
 			emaillogRepository.update(vo.getRegDate());
 
-			// TX:end(success) ////////////////////////////////
+			// TX:end(success) ////////////////////////
 			conn.commit();
 		} catch(Throwable e) {
-			// TX:end(fail) ////////////////////////////////
+			// TX:end(fail) ////////////////////////
 			try {
 				conn.rollback();
 			} catch (SQLException e1) {
