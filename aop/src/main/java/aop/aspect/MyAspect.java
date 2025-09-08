@@ -39,7 +39,7 @@ public class MyAspect {
 
 		Object result = pjp.proceed();
 
-//		메소드의 파라미터에 추가 처리가 있는 경우...
+//		메소드의 파라미터에 추가 처리가 있는 경우..
 //		Object[] params = {"PC"};
 //		Object result = pjp.proceed(params);
 
