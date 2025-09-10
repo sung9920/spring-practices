@@ -15,7 +15,7 @@ public class FileuploadService {
 	private static final String SAVE_PATH = "/fileupload-uploads";
 	private static final String URL = "/images";
 
-	public static String restore(MultipartFile multipartFile) throws RuntimeException {
+	public String restore(MultipartFile multipartFile) throws RuntimeException {
 		try {
 
 			File uploadDirectory = new File(SAVE_PATH);
@@ -32,7 +32,7 @@ public class FileuploadService {
 			String originalFilename = multipartFile.getOriginalFilename();
 			String extName = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
 			String saveFilename = generateSaveFilename(extName);
-			long fileSize = multipartFile.getSize();
+//			long fileSize = multipartFile.getSize();
 
 			byte[] data = multipartFile.getBytes();
 			OutputStream os = new FileOutputStream(SAVE_PATH + "/" + saveFilename);
