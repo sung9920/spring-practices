@@ -1,12 +1,19 @@
 package com.bit2025.fileupload.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.bit2025.fileupload.service.FileuploadService;
 
 @Controller
 public class FileuploadController {
+
+	@Autowired
+	private FileuploadService fileuploadService;
 
 	@RequestMapping("/")
 	public String form() {
@@ -15,14 +22,15 @@ public class FileuploadController {
 
 	@RequestMapping("/upload")
 	public String upload(
-			@RequestParam(value="email", defaultValue="")String email,
-			@RequestParam(value="file") MutipartFile multipartFiles
-			Model model) {
-			System.out.println("email:" + email);
+		@RequestParam(value="email", required=true, defaultValue="") String email,
+		@RequestParam(value="file") MultipartFile multipartFiles,
+		Model model) {
+		System.out.println("email:" + email);
 
-			String url = fileuploadService.restore(mutipartFiles);
+		String url = FileuploadService.restore(multipartFiles);
 
-			model.addAttribute("url", url);
+		model.addAttribute("url", url);
 		return "result";
 	}
+
 }
