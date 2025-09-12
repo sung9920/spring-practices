@@ -11,25 +11,26 @@ import com.bit2025.fileupload.service.FileuploadService;
 
 @Controller
 public class FileuploadController {
-
+	
 	@Autowired
 	private FileuploadService fileuploadService;
-
+	
 	@RequestMapping("/")
 	public String form() {
 		return "form";
 	}
-
+	
 	@RequestMapping("/upload")
 	public String upload(
-		@RequestParam(value="email", defaultValue="") String email,
-		@RequestParam(value="file") MultipartFile multipartFiles,
+		@RequestParam(value="email", required=true, defaultValue="") String email,
+		@RequestParam(value="file") MultipartFile multipartFile,
 		Model model) {
-
-		String url = fileuploadService.restore(multipartFiles);
-
+		System.out.println("email:" + email);
+		
+		String url = fileuploadService.restore(multipartFile);
+		
 		model.addAttribute("url", url);
 		return "result";
 	}
-
+	
 }
