@@ -24,6 +24,6 @@ public class DVDPlayerXmlConfigTest {
 
 	@Test
 	public void testPlay() {
-		assertEquals("Playing Mavel's Avengers", dvdPlayer.play());
+		assertEquals("Playing Marvel's Avengers", dvdPlayer.play());
 	}
 }
