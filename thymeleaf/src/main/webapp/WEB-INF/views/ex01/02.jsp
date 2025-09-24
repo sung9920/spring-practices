@@ -7,10 +7,10 @@
 </head>
 <body>
 	<h1>${'Hello World: JSP(JSTL/EL) View' }</h1>
-
-
+	
+	
 	<div style="padding-top: 100px">
 		<a href="${pageContext.request.contextPath }/ex01">return to index</a>
-	</div>
+	</div>	
 </body>
 </html>
